@@ -1,10 +1,10 @@
 import {
-  AlipayOutlined,
+  // AlipayOutlined,
   LockOutlined,
   MobileOutlined,
-  TaobaoOutlined,
+  // TaobaoOutlined,
   UserOutlined,
-  WeiboOutlined,
+  // WeiboOutlined,
 } from "@ant-design/icons";
 import {
   LoginFormPage,
@@ -13,63 +13,42 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from "@ant-design/pro-components";
-import { Button, Divider, Space, Tabs, message, theme } from "antd";
-import type { CSSProperties } from "react";
+import {
+  // Divider,
+  // Space,
+  Tabs,
+  message,
+  theme,
+} from "antd";
+// import type { CSSProperties } from "react";
 import { useState } from "react";
+
+import styles from "./index.module.less";
 
 type LoginType = "phone" | "account";
 
-const iconStyles: CSSProperties = {
-  color: "rgba(0, 0, 0, 0.2)",
-  fontSize: "18px",
-  verticalAlign: "middle",
-  cursor: "pointer",
-};
+// const iconStyles: CSSProperties = {
+//   color: "rgba(0, 0, 0, 0.2)",
+//   fontSize: "18px",
+//   verticalAlign: "middle",
+//   cursor: "pointer",
+// };
 
 const Page = () => {
   const [loginType, setLoginType] = useState<LoginType>("phone");
   const { token } = theme.useToken();
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        height: "100vh",
-      }}
-    >
+    <div className={styles.container}>
       <LoginFormPage
         backgroundImageUrl="https://mdn.alipayobjects.com/huamei_gcee1x/afts/img/A*y0ZTS6WLwvgAAAAAAAAAAAAADml6AQ/fmt.webp"
         logo="https://cdn.worldvectorlogo.com/logos/github-icon-2.svg"
-        backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
+        // backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
         title="Github"
         containerStyle={{
-          backgroundColor: "rgba(0, 0, 0,0.65)",
+          backgroundColor: "rgba(0, 0, 0,0.8)",
           backdropFilter: "blur(4px)",
         }}
         subTitle="全球最大的代码托管平台"
-        activityConfig={{
-          style: {
-            boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.2)",
-            color: token.colorTextHeading,
-            borderRadius: 8,
-            backgroundColor: "rgba(255,255,255,0.25)",
-            backdropFilter: "blur(4px)",
-          },
-          title: "活动标题，可配置图片",
-          subTitle: "活动介绍说明文字",
-          action: (
-            <Button
-              size="large"
-              style={{
-                borderRadius: 20,
-                background: token.colorBgElevated,
-                color: token.colorPrimary,
-                width: 120,
-              }}
-            >
-              去看看
-            </Button>
-          ),
-        }}
         actions={
           <div
             style={{
@@ -79,7 +58,7 @@ const Page = () => {
               flexDirection: "column",
             }}
           >
-            <Divider plain>
+            {/* <Divider plain>
               <span
                 style={{
                   color: token.colorTextPlaceholder,
@@ -89,8 +68,8 @@ const Page = () => {
               >
                 其他登录方式
               </span>
-            </Divider>
-            <Space align="center" size={24}>
+            </Divider> */}
+            {/* <Space align="center" size={24}>
               <div
                 style={{
                   display: "flex",
@@ -133,18 +112,25 @@ const Page = () => {
               >
                 <WeiboOutlined style={{ ...iconStyles, color: "#1890ff" }} />
               </div>
-            </Space>
+            </Space> */}
           </div>
         }
       >
         <Tabs
+          items={[
+            // {
+            //   key: "account",
+            //   label: "账号密码登录",
+            // },
+            {
+              key: "phone",
+              label: "手机号登录",
+            },
+          ]}
           centered
           activeKey={loginType}
           onChange={(activeKey) => setLoginType(activeKey as LoginType)}
-        >
-          <Tabs.TabPane key="account" tab="账号密码登录" />
-          <Tabs.TabPane key="phone" tab="手机号登录" />
-        </Tabs>
+        />
         {loginType === "account" && (
           <>
             <ProFormText
