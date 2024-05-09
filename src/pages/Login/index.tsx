@@ -3,7 +3,7 @@ import {
   LockOutlined,
   MobileOutlined,
   // TaobaoOutlined,
-  UserOutlined,
+  // UserOutlined,
   // WeiboOutlined,
 } from "@ant-design/icons";
 import {
@@ -17,26 +17,24 @@ import {
   // Divider,
   // Space,
   Tabs,
-  message,
-  theme,
+  App,
+  // theme,
 } from "antd";
 // import type { CSSProperties } from "react";
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { sendEmailCode } from "../../graphql/auth";
 
 import styles from "./index.module.less";
 
-type LoginType = "phone" | "account";
-
-// const iconStyles: CSSProperties = {
-//   color: "rgba(0, 0, 0, 0.2)",
-//   fontSize: "18px",
-//   verticalAlign: "middle",
-//   cursor: "pointer",
-// };
+type LoginType = "phone" | "account" | "email";
 
 const Page = () => {
-  const [loginType, setLoginType] = useState<LoginType>("phone");
-  const { token } = theme.useToken();
+  const { message } = App.useApp();
+
+  const [loginType, setLoginType] = useState<LoginType>("email");
+
+  const [run] = useMutation(sendEmailCode);
   return (
     <div className={styles.container}>
       <LoginFormPage
@@ -48,6 +46,7 @@ const Page = () => {
           backgroundColor: "rgba(0, 0, 0,0.8)",
           backdropFilter: "blur(4px)",
         }}
+        initialValues={{ email: "johnnywwy@gmail.com" }}
         subTitle="全球最大的代码托管平台"
         actions={
           <div
@@ -122,16 +121,20 @@ const Page = () => {
             //   key: "account",
             //   label: "账号密码登录",
             // },
+            // {
+            //   key: "phone",
+            //   label: "手机号登录",
+            // },
             {
-              key: "phone",
-              label: "手机号登录",
+              key: "email",
+              label: "邮箱登录",
             },
           ]}
           centered
           activeKey={loginType}
           onChange={(activeKey) => setLoginType(activeKey as LoginType)}
         />
-        {loginType === "account" && (
+        {/* {loginType === "account" && (
           <>
             <ProFormText
               name="username"
@@ -238,6 +241,60 @@ const Page = () => {
               }}
             />
           </>
+        )} */}
+        {loginType === "email" && (
+          <>
+            <ProFormText
+              fieldProps={{
+                size: "large",
+                prefix: <MobileOutlined className="prefixIcon" />,
+              }}
+              name="email"
+              placeholder="请输入邮箱"
+              rules={[
+                {
+                  required: true,
+                  message: "请输入邮箱！",
+                },
+                {
+                  pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+                  message: "邮箱格式错误！",
+                },
+              ]}
+            />
+            <ProFormCaptcha
+              fieldProps={{
+                size: "large",
+                prefix: <LockOutlined className="prefixIcon" />,
+              }}
+              captchaProps={{
+                size: "large",
+              }}
+              placeholder="请输入验证码"
+              captchaTextRender={(timing, count) => {
+                if (timing) {
+                  return `${count} ${"获取验证码"}`;
+                }
+                return "获取验证码";
+              }}
+              phoneName="email"
+              name="code"
+              rules={[
+                {
+                  required: true,
+                  message: "请输入验证码！",
+                },
+              ]}
+              onGetCaptcha={async (email) => {
+                run({
+                  variables: {
+                    email,
+                  },
+                });
+                message.success("获取验证码成功！验证码为：1234");
+              }}
+            />
+          </>
         )}
         <div
           style={{
@@ -264,7 +321,9 @@ const Page = () => {
 export default () => {
   return (
     <ProConfigProvider dark>
-      <Page />
+      <App>
+        <Page />
+      </App>
     </ProConfigProvider>
   );
 };
