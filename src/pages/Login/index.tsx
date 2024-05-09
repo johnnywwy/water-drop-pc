@@ -23,18 +23,36 @@ import {
 // import type { CSSProperties } from "react";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { sendEmailCode } from "../../graphql/auth";
+import { SEND_EMAIL_CODE, LOGIN } from "../../graphql/auth";
 
 import styles from "./index.module.less";
 
 type LoginType = "phone" | "account" | "email";
+
+interface IValue {
+  email: string;
+  code: string;
+}
 
 const Page = () => {
   const { message } = App.useApp();
 
   const [loginType, setLoginType] = useState<LoginType>("email");
 
-  const [run] = useMutation(sendEmailCode);
+  const [run] = useMutation(SEND_EMAIL_CODE);
+  const [login] = useMutation(LOGIN);
+
+  const loginHandler = async (values: IValue) => {
+    console.log("values", values);
+    const res = await login({
+      variables: values,
+    });
+    if (res.data.login) {
+      message.success("登录成功");
+      window.location.href = "/home";
+    }
+    // console.log("loginHandler", res);
+  };
   return (
     <div className={styles.container}>
       <LoginFormPage
@@ -114,6 +132,7 @@ const Page = () => {
             </Space> */}
           </div>
         }
+        onFinish={loginHandler}
       >
         <Tabs
           items={[
@@ -286,12 +305,16 @@ const Page = () => {
                 },
               ]}
               onGetCaptcha={async (email) => {
-                run({
+                const res = await run({
                   variables: {
                     email,
                   },
                 });
-                message.success("获取验证码成功！验证码为：1234");
+                console.log("res", res);
+                if (res.data.sendEmailCode) {
+                  message.success("获取验证码成功！");
+                }
+                // message.success("获取验证码成功！");
               }}
             />
           </>
