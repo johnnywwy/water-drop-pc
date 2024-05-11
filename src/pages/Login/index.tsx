@@ -23,6 +23,8 @@ import {
 // import type { CSSProperties } from "react";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
+import { useLocalStorageState } from "ahooks";
+import { useNavigate } from "react-router-dom";
 import { SEND_EMAIL_CODE, LOGIN } from "../../graphql/auth";
 
 import styles from "./index.module.less";
@@ -32,6 +34,7 @@ type LoginType = "phone" | "account" | "email";
 interface IValue {
   email: string;
   code: string;
+  autoLogin: boolean;
 }
 
 const Page = () => {
@@ -41,15 +44,28 @@ const Page = () => {
 
   const [run] = useMutation(SEND_EMAIL_CODE);
   const [login] = useMutation(LOGIN);
+  const nav = useNavigate();
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [localStorage, setLocalStorage] = useLocalStorageState<string | undefined>("token");
 
   const loginHandler = async (values: IValue) => {
-    console.log("values", values);
+    // console.log("values", values);
     const res = await login({
       variables: values,
     });
     if (res.data.login) {
+      if (values.autoLogin) {
+        setLocalStorage(res.data.login.data);
+      }
+
       message.success("登录成功");
-      window.location.href = "/home";
+      setLocalStorage(res.data.login.data);
+
+      nav("/home");
+
+      // setLocalStorage(res.data);
+      // window.location.href = "/home";
     }
     // console.log("loginHandler", res);
   };

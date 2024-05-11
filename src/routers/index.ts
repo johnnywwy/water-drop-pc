@@ -5,7 +5,7 @@ import { lazy } from "react";
 
 const Login = lazy(() => import("../pages/Login"));
 const Home = lazy(() => import("../pages/Home"));
-const NotFound = lazy(() => import("../pages/NotFound"));
+// const NotFound = lazy(() => import("../pages/NotFound"));
 
 export const routers = [
   {
@@ -20,10 +20,10 @@ export const routers = [
     key: "home",
     title: "首页",
   },
-  {
-    path: "*",
-    element: NotFound,
-    key: "notFound",
-    title: "404",
-  },
+  // {
+  //   path: "*",
+  //   element: NotFound,
+  //   key: "notFound",
+  //   title: "404",
+  // },
 ];

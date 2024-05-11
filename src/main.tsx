@@ -19,7 +19,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         {routers.map((item) => (
           <Route path={item.path} key={item.key} element={<item.element />} />
         ))}
-
         <Route path="*" element={<NotFound />} />
       </Routes>
       {/* <App /> */}

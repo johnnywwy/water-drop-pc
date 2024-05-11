@@ -5,7 +5,6 @@ export const SEND_EMAIL_CODE = gql`
     sendEmailCode(email: $email) {
       code
       message
-      data
     }
   }
 `;
