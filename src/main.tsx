@@ -11,17 +11,20 @@ import "./index.css";
 
 import { routers } from "./routers";
 import NotFound from "./pages/NotFound";
+import UserInfo from "./components/UserInfo";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <ApolloProvider client={client}>
-    <BrowserRouter>
-      <Routes>
-        {routers.map((item) => (
-          <Route path={item.path} key={item.key} element={<item.element />} />
-        ))}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      {/* <App /> */}
-    </BrowserRouter>
+    <UserInfo>
+      <BrowserRouter>
+        <Routes>
+          {routers.map((item) => (
+            <Route path={item.path} key={item.key} element={<item.element />} />
+          ))}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        {/* <App /> */}
+      </BrowserRouter>
+    </UserInfo>
   </ApolloProvider>,
 );

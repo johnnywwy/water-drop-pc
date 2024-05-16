@@ -50,7 +50,6 @@ const Page = () => {
   const [localStorage, setLocalStorage] = useLocalStorageState<string | undefined>("token");
 
   const loginHandler = async (values: IValue) => {
-    // console.log("values", values);
     const res = await login({
       variables: values,
     });
@@ -67,7 +66,6 @@ const Page = () => {
       // setLocalStorage(res.data);
       // window.location.href = "/home";
     }
-    // console.log("loginHandler", res);
   };
   return (
     <div className={styles.container}>
@@ -326,7 +324,6 @@ const Page = () => {
                     email,
                   },
                 });
-                console.log("res", res);
                 if (res.data.sendEmailCode) {
                   message.success("获取验证码成功！");
                 }

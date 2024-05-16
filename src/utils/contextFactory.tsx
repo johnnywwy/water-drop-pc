@@ -1,45 +1,66 @@
+/* eslint-disable import/no-duplicates */
 /* eslint-disable react/jsx-props-no-spreading */
+import React from "react";
 import { useContext, useMemo, useState } from "react";
+import { IPropChild } from "./types";
 
-interface IStore {
+interface IStore<T> {
   key: string;
-  store: Record<string, any>;
-  setStore: (payload: Record<string, any>) => void;
+  store: T;
+  setStore: (payload: Partial<T>) => void;
 }
 
-const getCtxProvider =
-  (key: string, defaultValue: Record<string, any>, AppContext: React.Context<IStore>) =>
-  ({ children }: IProp) => {
+function getCxtProvider<T>(key: string, defaultValue: T, AppContext: React.Context<IStore<T>>) {
+  return ({ children }: IPropChild) => {
     const [store, setStore] = useState(defaultValue);
     const value = useMemo(
       () => ({
         key,
         store,
-        setStore,
+        setStore: (payload = {}) =>
+          setStore((state) => ({
+            ...state,
+            ...payload,
+          })),
       }),
-      [],
+      [store],
     );
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
   };
+}
+// ({ children }: IProp) => {
+//   const [store, setStore] = useState(defaultValue);
+//   const value = useMemo(
+//     () => ({
+//       key,
+//       store,
+//       setStore,
+//     }),
+//     [],
+//   );
+
+//   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+// };
 
 const cxtCache: Record<string, Cxt> = {};
 
-class Cxt {
-  defaultStore: IStore;
+class Cxt<T = any> {
+  defaultStore: IStore<T>;
 
-  AppContext: React.Context<IStore>;
+  AppContext: React.Context<IStore<T>>;
 
-  Provider: ({ children }: IProp) => JSX.Element;
+  Provider: ({ children }: IPropChild) => JSX.Element;
 
-  constructor(key: string, defaultValue: Record<string, any>) {
+  constructor(key: string, defaultValue: T) {
     this.defaultStore = {
       key,
       store: defaultValue,
+      // eslint-disable-next-line prettier/prettier
       setStore: () => {},
     };
     this.AppContext = React.createContext(this.defaultStore);
-    this.Provider = getCtxProvider(key, defaultValue, this.AppContext);
+    this.Provider = getCxtProvider(key, defaultValue, this.AppContext);
 
     cxtCache[key] = this;
   }

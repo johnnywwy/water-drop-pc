@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { Button, Result } from "antd";
 
 // import style from "./index.module.less";
@@ -7,10 +7,10 @@ import { Button, Result } from "antd";
  * 404页面
  */
 const NotFound = () => {
-  const [state, setState] = useState();
-  useEffect(() => {
-    console.log(state, setState);
-  }, []);
+  // const [state, setState] = useState();
+  // useEffect(() => {
+  //   console.log(state, setState);
+  // }, []);
   return (
     <Result
       status="404"
