@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   // AlipayOutlined,
   LockOutlined,
@@ -23,8 +24,8 @@ import {
 // import type { CSSProperties } from "react";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { useLocalStorageState } from "ahooks";
-import { useNavigate } from "react-router-dom";
+import { useLocalStorageState, useSessionStorageState } from "ahooks";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SEND_EMAIL_CODE, LOGIN } from "@/graphql/auth";
 
 import styles from "./index.module.less";
@@ -44,28 +45,34 @@ const Page = () => {
 
   const [run] = useMutation(SEND_EMAIL_CODE);
   const [login] = useMutation(LOGIN);
+
+  const [params] = useSearchParams();
   const nav = useNavigate();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [localStorage, setLocalStorage] = useLocalStorageState<string | undefined>("token");
+
+  const [sessionStorage, setSessionStorage] = useSessionStorageState<string | undefined>("token");
 
   const loginHandler = async (values: IValue) => {
     const res = await login({
       variables: values,
     });
-    if (res.data.login) {
+    if (res.data.login.code === 200) {
       if (values.autoLogin) {
+        setSessionStorage("");
         setLocalStorage(res.data.login.data);
+      } else {
+        setLocalStorage("");
+        setSessionStorage(res.data.login.data);
       }
 
       message.success("登录成功");
-      setLocalStorage(res.data.login.data);
+      // setLocalStorage(res.data.login.data);
 
-      nav("/home");
-
-      // setLocalStorage(res.data);
-      // window.location.href = "/home";
+      nav(params.get("orginUrl") || "/");
+      return;
     }
+    message.error("登录失败");
   };
   return (
     <div className={styles.container}>

@@ -1,6 +1,6 @@
 // import { useState, useEffect } from "react";
 
-import { useUserContext } from "@/utils/userHooks";
+import { useUserContext } from "@/hooks/userHooks";
 import style from "./index.module.less";
 
 /**

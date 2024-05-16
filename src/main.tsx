@@ -15,8 +15,8 @@ import UserInfo from "./components/UserInfo";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <ApolloProvider client={client}>
-    <UserInfo>
-      <BrowserRouter>
+    <BrowserRouter>
+      <UserInfo>
         <Routes>
           {routers.map((item) => (
             <Route path={item.path} key={item.key} element={<item.element />} />
@@ -24,7 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Route path="*" element={<NotFound />} />
         </Routes>
         {/* <App /> */}
-      </BrowserRouter>
-    </UserInfo>
+      </UserInfo>
+    </BrowserRouter>
   </ApolloProvider>,
 );
