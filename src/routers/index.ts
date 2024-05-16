@@ -8,13 +8,14 @@ export const routers = [
     path: "/",
     element: Home,
     key: "home",
-    title: "首页",
+    name: "首页",
   },
   {
     path: "/login",
     element: Login,
     key: "login",
-    title: "登录",
+    hideInMenu: true,
+    name: "登录",
   },
 
   // {
