@@ -1,7 +1,7 @@
 // import { useState, useEffect } from "react";
 
+import { useUserContext } from "@/utils/userHooks";
 import style from "./index.module.less";
-import { useUserContext } from "../../utils/userHooks";
 
 /**
  * 首页

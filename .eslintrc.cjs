@@ -24,15 +24,15 @@ module.exports = {
     react: {
       'version': 'detect'
     },
-    // 'import/resolver': {
-    //   'alias': {
-    //     'map': [
-    //       [
-    //         '@', './src'
-    //       ]
-    //     ],
-    //     'extensions': ['.ts', '.tsx']
-    //   }
-    // }
+    'import/resolver': {
+      'alias': {
+        'map': [
+          [
+            '@', './src'
+          ]
+        ],
+        'extensions': ['.ts', '.tsx']
+      }
+    }
   }
 }

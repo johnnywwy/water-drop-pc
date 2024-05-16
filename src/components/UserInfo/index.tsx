@@ -1,6 +1,6 @@
 // import { useEffect } from "react";
-import { IPropChild } from "../../utils/types";
-import { connect, useGetUserInfo } from "../../utils/userHooks";
+import { IPropChild } from "@/utils/types";
+import { connect, useGetUserInfo } from "@/utils/userHooks";
 
 // import style from "./index.module.less";
 

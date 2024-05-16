@@ -25,7 +25,7 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useLocalStorageState } from "ahooks";
 import { useNavigate } from "react-router-dom";
-import { SEND_EMAIL_CODE, LOGIN } from "../../graphql/auth";
+import { SEND_EMAIL_CODE, LOGIN } from "@/graphql/auth";
 
 import styles from "./index.module.less";
 
