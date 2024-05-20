@@ -1,25 +1,28 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 
-import { PageContainer, ProLayout } from "@ant-design/pro-components";
-import { useOutlet } from "react-router-dom";
+import { MenuDataItem, PageContainer, ProLayout } from "@ant-design/pro-components";
+import { useOutlet, Link } from "react-router-dom";
 // import { IPropChild } from "@/utils/types";
 import { useUserContext } from "@/hooks/userHooks";
-import { routers } from "@/routers";
+import { routes } from "@/routers/menus";
 import style from "./index.module.less";
 
+const menuItemRender = (item: MenuDataItem, dom: React.ReactNode) => (
+  <Link to={item.path || "/"}>{dom}</Link>
+);
 /**
  *
  */
 const Layout = () => {
   const outLet = useOutlet();
 
-  const [state, setState] = useState();
+  // const [state, setState] = useState();
 
   const { store } = useUserContext();
 
-  useEffect(() => {
-    console.log(state, setState);
-  }, []);
+  // useEffect(() => {
+  //   console.log(state, setState);
+  // }, []);
 
   return (
     <ProLayout
@@ -32,8 +35,9 @@ const Layout = () => {
       className={style.layout}
       route={{
         path: "/",
-        routes: routers,
+        routes,
       }}
+      menuItemRender={menuItemRender}
     >
       <PageContainer>{outLet}</PageContainer>
     </ProLayout>

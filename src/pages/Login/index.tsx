@@ -68,8 +68,9 @@ const Page = () => {
 
       message.success("登录成功");
       // setLocalStorage(res.data.login.data);
+      console.log("这里");
 
-      nav(params.get("orginUrl") || "/");
+      nav(params.get("orginUrl") || "/home");
       return;
     }
     message.error("登录失败");
