@@ -66,7 +66,6 @@ const Page = () => {
         setSessionStorage(res.data.login.data);
       }
 
-      console.log("aaaa");
       message.success("登录成功");
       // setLocalStorage(res.data.login.data);
       console.log("这里");
