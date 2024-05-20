@@ -9,18 +9,20 @@ import { client } from "./utils/apollo";
 import "./assets/reset.css";
 import "./index.css";
 
-import { routers } from "./routers";
+import { routes } from "./routers";
 import NotFound from "./pages/NotFound";
 import UserInfo from "./components/UserInfo";
 import Layout from "./components/Layout";
+import Login from "./pages/Login";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <ApolloProvider client={client}>
     <BrowserRouter>
       <UserInfo>
         <Routes>
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Layout />}>
-            {routers.map((item) => (
+            {routes.map((item) => (
               <Route path={item.path} key={item.key} element={<item.element />} />
             ))}
           </Route>
