@@ -5,6 +5,7 @@ import { useOutlet, Link } from "react-router-dom";
 // import { IPropChild } from "@/utils/types";
 import { useUserContext } from "@/hooks/userHooks";
 import { routes } from "@/routers/menus";
+import { App } from "antd";
 import style from "./index.module.less";
 
 const menuItemRender = (item: MenuDataItem, dom: React.ReactNode) => (
@@ -39,7 +40,7 @@ const Layout = () => {
       }}
       menuItemRender={menuItemRender}
     >
-      {outLet}
+      <App>{outLet}</App>
     </ProLayout>
   );
 };

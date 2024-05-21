@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
-import { Col, Row, message } from "antd";
+import { App, Col, Form, Row } from "antd";
 import { routes } from "@/routers/menus";
-// import { useNavigate } from "react-router-dom";
 import {
   PageContainer,
   ProForm,
@@ -11,6 +10,8 @@ import {
 } from "@ant-design/pro-components";
 import ImageUpload from "@/components/ImageUpload";
 import { useUserContext } from "@/hooks/userHooks";
+import { UPDATE_USER } from "@/graphql/user";
+import { useMutation } from "@apollo/client";
 
 // import style from "./index.module.less";
 
@@ -18,11 +19,14 @@ import { useUserContext } from "@/hooks/userHooks";
  *
  */
 const My = () => {
+  const { message } = App.useApp();
+
   const formRef = useRef<ProFormInstance>();
 
   const { store } = useUserContext();
 
-  // const [state, setState] = useState();
+  const [updateUser] = useMutation(UPDATE_USER);
+
   useEffect(() => {
     console.log("routes", routes);
     if (!store.tel) return;
@@ -44,17 +48,25 @@ const My = () => {
       },
     },
   };
+  const onFinish = async (values: any) => {
+    console.log("values", values);
+    // message.success("登录成功");
+    const { name, desc } = values;
+    const res = await updateUser({
+      variables: {
+        id: store.id,
+        params: { name, desc },
+      },
+    });
+    console.log("res666", res);
+
+    if (res.data.updateUser.code === 200) {
+      message.success(res.data.updateUser.message);
+    }
+  };
   return (
     <PageContainer>
-      <ProForm
-        formRef={formRef}
-        layout="horizontal"
-        onFinish={async (values) => {
-          console.log("values", values);
-          message.success("提交成功");
-        }}
-        submitter={submitter}
-      >
+      <ProForm formRef={formRef} layout="horizontal" onFinish={onFinish} submitter={submitter}>
         <Row gutter={20}>
           <Col>
             <ProFormText name="tel" label="手机号" tooltip="不能修改" disabled />
@@ -62,7 +74,9 @@ const My = () => {
             <ProFormTextArea name="desc" label="简介" placeholder="请输入简介信息" />
           </Col>
           <Col>
-            <ImageUpload />
+            <Form.Item name="avatar" label="头像" tooltip="不能修改" valuePropName="fileList">
+              <ImageUpload />
+            </Form.Item>
           </Col>
         </Row>
       </ProForm>
