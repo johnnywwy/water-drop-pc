@@ -19,8 +19,10 @@ export const useTitle = (title: string) => {
  */
 export const useGoTo = () => {
   const nav = useNavigate();
-  const back = nav(-1);
-  const go = (pageKey: string, params: Record<string, string | number>) => {
+  const back = () => nav(-1);
+  const go = (pageKey: string, params?: Record<string, string | number>) => {
+    console.log("pageKey", pageKey);
+
     if (!pageKey) {
       nav("/");
       return;
@@ -28,7 +30,7 @@ export const useGoTo = () => {
     const route = getRouterByKey(pageKey);
     if (route && route?.path) {
       if (!params) {
-        nav(route.path);
+        nav(`/${route.path}`);
         return;
       }
       const url = route.path.replace(/\/:(\w+)/g, (_, $1) => `/${params[$1]}`);

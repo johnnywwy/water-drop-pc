@@ -16,7 +16,7 @@ const Home = () => {
   return (
     <div className={style.container}>
       我是首页
-      <Button onClick={() => go(ROUTER_KEY.MY, {})}>去个人中心</Button>
+      <Button onClick={() => go(ROUTER_KEY.MY)}>去个人中心</Button>
       手机号：{store.tel}
     </div>
   );

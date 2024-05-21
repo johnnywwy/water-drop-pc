@@ -70,7 +70,7 @@ const Page = () => {
       // setLocalStorage(res.data.login.data);
       console.log("这里");
 
-      nav(params.get("orginUrl") || "/home");
+      nav(params.get("orginUrl") || "/");
       return;
     }
     message.error("登录失败");
