@@ -6,6 +6,8 @@ export const GET_USER_INFO = gql`
       tel
       name
       id
+      des
+      avatar
       email
     }
   }

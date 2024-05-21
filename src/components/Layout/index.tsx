@@ -1,6 +1,6 @@
 // import { useState, useEffect } from "react";
 
-import { MenuDataItem, PageContainer, ProLayout } from "@ant-design/pro-components";
+import { MenuDataItem, ProLayout } from "@ant-design/pro-components";
 import { useOutlet, Link } from "react-router-dom";
 // import { IPropChild } from "@/utils/types";
 import { useUserContext } from "@/hooks/userHooks";
@@ -39,7 +39,7 @@ const Layout = () => {
       }}
       menuItemRender={menuItemRender}
     >
-      <PageContainer>{outLet}</PageContainer>
+      {outLet}
     </ProLayout>
   );
 };

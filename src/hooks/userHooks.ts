@@ -18,8 +18,8 @@ export const useGetUserInfo = () => {
   const { loading } = useQuery<{ getUserInfo: IUser }>(GET_USER_INFO, {
     onCompleted: (data) => {
       if (data.getUserInfo) {
-        const { email, id, name, tel } = data.getUserInfo;
-        setStore({ id, email, name, tel });
+        const { email, id, name, tel, desc, avatar } = data.getUserInfo;
+        setStore({ id, email, name, tel, desc, avatar });
 
         if (location.pathname.startsWith("/login")) {
           nav("/");
